@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AVNI Eco Passport</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F1F6F2;--surface:#FFFFFF;--surface2:#E7F0E9;--ink:#10332A;--muted:#587065;--line:#D2E1D7;
+  --brand:#1E7A4C;--brand-ink:#FFFFFF;--accent:#F0B429;--danger:#C0412A;--cover:#123F32;--cover2:#1B5644;--cover-ink:#E9F6EE;
+  --shadow:0 1px 2px rgba(16,51,42,.06),0 10px 28px rgba(16,51,42,.07);
+  --display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;--body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B1813;--surface:#12251E;--surface2:#193229;--ink:#E5F2EA;--muted:#93AC9F;--line:#24443A;
+  --brand:#4CC38A;--brand-ink:#07211A;--accent:#F2C14E;--danger:#F07A61;--cover:#0A2A21;--cover2:#12503D;--cover-ink:#E9F6EE;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.25)}}
+:root[data-theme="dark"]{
+  --bg:#0B1813;--surface:#12251E;--surface2:#193229;--ink:#E5F2EA;--muted:#93AC9F;--line:#24443A;
+  --brand:#4CC38A;--brand-ink:#07211A;--accent:#F2C14E;--danger:#F07A61;--cover:#0A2A21;--cover2:#12503D;--cover-ink:#E9F6EE;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.25)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.15;letter-spacing:-.01em}
+h1{font-size:clamp(28px,5vw,40px);font-weight:800}h2{font-size:22px;font-weight:700}h3{font-size:17px;font-weight:700}
+p{margin:0}a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+.muted{color:var(--muted)}.sm{font-size:14px}.xs{font-size:13px}.right{text-align:right}.mt{margin-top:16px}.mt2{margin-top:28px}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.grow{flex:1}.between{justify-content:space-between}
+.wrap{max-width:780px;margin:0 auto;padding:20px 16px 56px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 16px;font-weight:600;cursor:pointer;min-height:44px;text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:var(--brand);text-decoration:none}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}.btn.primary:hover{filter:brightness(1.07)}
+.btn.warn{color:var(--danger);border-color:var(--danger)}.btn.sm{min-height:36px;padding:6px 12px;font-size:14px}.btn.big{font-size:18px;padding:14px 22px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;background:var(--surface2);font-weight:600;font-size:14px}
+.chip.gold{background:color-mix(in srgb,var(--accent) 28%,transparent)}.chip.red{background:color-mix(in srgb,var(--danger) 18%,transparent);color:var(--danger)}
+.bar{height:12px;border-radius:99px;background:var(--surface2);overflow:hidden}.bar>i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--accent))}
+label{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
+input[type=text],input[type=number],input[type=date],input[type=password],select,textarea{width:100%;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;min-height:44px}
+textarea{min-height:80px;resize:vertical}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .in{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;gap:14px;align-items:center;justify-content:space-between}
+.logo{font-family:var(--display);font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px;color:var(--ink)}.logo:hover{text-decoration:none}
+.logo span{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--brand);color:var(--brand-ink);font-size:16px}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding:2px}
+.tabs a{padding:8px 14px;border-radius:10px;color:var(--muted);font-weight:600;white-space:nowrap}.tabs a:hover{text-decoration:none;background:var(--surface2)}
+.tabs a.on{background:var(--ink);color:var(--bg)}
+/* passport cover */
+.cover{position:relative;overflow:hidden;border-radius:22px;background:linear-gradient(155deg,var(--cover2),var(--cover) 65%);color:var(--cover-ink);padding:22px;box-shadow:var(--shadow)}
+.cover::before{content:"";position:absolute;inset:10px;border:1.5px solid rgba(233,246,238,.25);border-radius:15px;pointer-events:none}
+.cover::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;border:24px solid rgba(233,246,238,.06)}
+.cover .muted{color:rgba(233,246,238,.72)}
+.mrz{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;letter-spacing:.12em;color:rgba(233,246,238,.6);overflow:hidden;white-space:nowrap;margin-top:18px;line-height:1.5}
+.score{font-family:var(--display);font-weight:800;font-size:clamp(64px,16vw,96px);line-height:.95;letter-spacing:-.03em}
+.cover .bar{background:rgba(233,246,238,.16)}
+.avatar{display:grid;place-items:center;border-radius:50%;font-family:var(--display);font-weight:800;color:#fff;flex:none}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.stat b{display:block;font-family:var(--display);font-size:30px;font-weight:800;line-height:1.1}
+h2.sec{margin:32px 0 12px}
+.mood{display:flex;gap:16px;align-items:center}.mood .face{font-size:44px;line-height:1}
+/* stamps */
+.stamp{position:relative;display:grid;place-content:center;justify-items:center;border-radius:50%;border:3px double var(--ink2);color:var(--ink2);transform:rotate(var(--rot));flex:none;background:transparent}
+.stamp::after{content:"";position:absolute;inset:4px;border-radius:50%;border:1.5px dashed var(--ink2);opacity:.55}
+.stamp .si{font-size:26px;line-height:1}.stamp b{font-family:var(--display);font-size:15px}
+.entry{display:flex;gap:16px;align-items:center;padding:14px 0;border-bottom:1px dashed var(--line)}.entry:last-child{border-bottom:0}
+.entry .amt{font-family:var(--display);font-weight:800;font-size:20px;color:var(--brand)}.entry .amt.neg{color:var(--danger)}
+/* badges */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.badge{position:relative;text-align:center;padding:18px 12px;border-radius:18px;border:1.5px solid var(--line);background:var(--surface);overflow:hidden}
+.badge .ic{font-size:44px;line-height:1.1;display:block}
+.badge.on{border-color:var(--accent);background:linear-gradient(160deg,color-mix(in srgb,var(--accent) 22%,var(--surface)),var(--surface) 60%)}
+.badge.on::after{content:"";position:absolute;top:-30%;left:-60%;width:40%;height:160%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:rotate(20deg);animation:shine 4s 1s 1 both}
+@keyframes shine{to{left:130%}}
+.badge.off{opacity:.55}.badge.off .ic{filter:grayscale(1)}
+/* hero landing */
+.hero{display:grid;gap:28px;grid-template-columns:1.1fr 1fr;align-items:center;max-width:1000px;margin:0 auto;padding:36px 16px 56px}
+/* admin */
+.adm{display:grid;grid-template-columns:220px 1fr;gap:24px;max-width:1120px;margin:0 auto;padding:20px 16px 56px}
+.side{position:sticky;top:76px;align-self:start;display:flex;flex-direction:column;gap:4px}
+.side a{display:flex;justify-content:space-between;gap:8px;padding:10px 12px;border-radius:10px;color:var(--ink);font-weight:600}.side a:hover{text-decoration:none;background:var(--surface2)}.side a.on{background:var(--ink);color:var(--bg)}
+.pill{background:var(--accent);color:#3a2a00;border-radius:99px;font-size:12px;padding:0 8px;font-weight:700;align-self:center}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.metrics .card{padding:14px}.metrics b{font-family:var(--display);font-size:28px;font-weight:800;display:block;line-height:1.1;margin-top:4px}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:620px}th{text-align:left;font-size:13px;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1.5px solid var(--line)}td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top;font-size:15px}
+.srow{display:flex;gap:12px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line);color:var(--ink)}.srow:hover{text-decoration:none;background:var(--surface2)}
+svg text.cv{fill:var(--ink);font-size:10px;font-weight:600;text-anchor:middle}svg text.cl{fill:var(--muted);font-size:10px;text-anchor:middle}
+svg{width:100%;height:auto;display:block}
+.hb{display:grid;grid-template-columns:150px 1fr 34px;gap:10px;align-items:center;margin:8px 0;font-size:14px}.hb .bar{height:10px}
+.qrbox{background:#fff;padding:12px;border-radius:14px;display:inline-block;line-height:0}.qrbox img,.qrbox canvas{max-width:100%;height:auto}
+.overlay{position:fixed;inset:0;background:rgba(6,20,15,.55);display:grid;place-items:center;padding:16px;z-index:50;overflow-y:auto}
+.modal{background:var(--surface);border-radius:18px;padding:22px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,.35);animation:pop .18s ease-out;max-height:92vh;overflow-y:auto}
+@keyframes pop{from{transform:scale(.97);opacity:0}}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;font-weight:600;z-index:60;box-shadow:var(--shadow);max-width:90vw}
+pre{background:var(--surface2);padding:12px;border-radius:10px;overflow-x:auto;font-size:12.5px;line-height:1.5;margin:10px 0}
+details summary{cursor:pointer;font-weight:700}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0}.flow span.a{color:var(--muted)}
+.tog{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.err{color:var(--danger);font-size:14px;margin-top:8px;min-height:1px}
+@media (max-width:820px){.hero{grid-template-columns:1fr}.adm{grid-template-columns:1fr}.side{position:static;flex-direction:row;overflow-x:auto}.side a{white-space:nowrap}.grid2{grid-template-columns:1fr}}
+@media (max-width:480px){.grid3{gap:8px}.stat b{font-size:24px}.hb{grid-template-columns:110px 1fr 30px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div><div id="modal"></div><div id="toast"></div>
+<script>
+/* ============ helpers ============ */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=n=>Number(n).toLocaleString('en-IN');
+const fmtD=t=>new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+const fmtDT=t=>new Date(t).toLocaleString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+const DAY=86400000;
+const hash=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)};
+const rng=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const KEY='avni_eco_v2';
+function newToken(){const a='abcdefghjkmnpqrstuvwxyz23456789';let s='';try{const r=new Uint8Array(12);crypto.getRandomValues(r);r.forEach(x=>s+=a[x%a.length])}catch(e){for(let i=0;i<12;i++)s+=a[Math.floor(Math.random()*a.length)]}return s}
+
+/* ============ constants ============ */
+const BADGES=[
+ {id:'first',ic:'🌱',name:'First Step',desc:'First verified AVNI eco activity',auto:'first'},
+ {id:'recycler',ic:'♻️',name:'Recycler',desc:'Participated in recycling activities'},
+ {id:'green',ic:'🌳',name:'Green Thumb',desc:'Participated in plantation drives'},
+ {id:'clean',ic:'🧹',name:'Clean-Up Crew',desc:'Participated in clean-up drives'},
+ {id:'water',ic:'💧',name:'Water Warrior',desc:'Completed water conservation activities'},
+ {id:'champ',ic:'🌍',name:'Eco Champion',desc:'Reached 200 Eco Credits',auto:200},
+ {id:'legend',ic:'✨',name:'AVNI Legend',desc:'Reached 500 Eco Credits',auto:500}];
+const MOODS=[
+ {e:'🌱🥺',t:"Your Eco Passport is waiting for you!"},
+ {e:'🌿🙂',t:"You're getting started. Keep going!"},
+ {e:'🍃😄',t:"You're making an impact!"},
+ {e:'🌳🤩',t:"You're on fire! Keep protecting the planet!"},
+ {e:'🌍✨',t:"AVNI Eco Champion unlocked!"}];
+const INK=['#2E8B57','#3B82C4','#C2612B','#8A5AC7','#C0455F','#A08415','#1E8FA0','#6B8E23'];
+const ADMINS=['Ananya Kapoor (Convenor)','Rohan Mehta (Verification lead)','Ishita Verma (Events lead)'];
+const DEMO_PIN='AVNI2026';
+const DEFAULT_ACTS=[
+ {id:'A1',icon:'🌱',name:'Plantation Drive',desc:'Plant and tag saplings on campus and nearby green belts.',credits:20},
+ {id:'A2',icon:'🧹',name:'Clean-Up Drive',desc:'Community clean-up of a public space.',credits:15},
+ {id:'A3',icon:'♻️',name:'Recycling Drive',desc:'Collect and sort e-waste, paper and plastic for recycling.',credits:10},
+ {id:'A4',icon:'🛠️',name:'Eco Workshop',desc:'Attend an AVNI-run sustainability workshop.',credits:10},
+ {id:'A5',icon:'✨',name:'Upcycling Challenge',desc:'Turn waste into something useful and present it.',credits:25},
+ {id:'A6',icon:'🚲',name:'Sustainable Transport Challenge',desc:'Cycle, walk, carpool or take public transport for a week.',credits:15},
+ {id:'A7',icon:'💧',name:'Water Conservation Drive',desc:'Audit leaks, fix taps, spread awareness.',credits:15},
+ {id:'A8',icon:'🏫',name:'Campus Clean-Up Drive',desc:'Clean-up drive inside the college campus.',credits:20}];
+
+/* ============ seed data ============ */
+function seed(){
+  const r=rng(2026),NOW=Date.now(),pick=a=>a[Math.floor(r()*a.length)];
+  const F=['Aanya','Ishita','Riya','Meera','Kavya','Tanvi','Simran','Diya','Ananya','Pooja','Sanya','Nisha','Aditi','Prerna','Shreya','Mahi','Kritika','Radhika','Jiya','Palak','Harsh','Arjun','Kabir','Rohan','Vivaan','Dev','Yash','Aarav','Ishaan','Nikhil'];
+  const L=['Sharma','Verma','Gupta','Singh','Kapoor','Mehta','Khanna','Bansal','Chopra','Malhotra','Joshi','Nair','Rao','Iyer','Jain','Arora','Saxena','Bhatia','Tyagi','Yadav','Sethi','Dhawan','Batra','Grover'];
+  const C=['BSc Life Sciences','BA (Hons) Economics','B.Com (Hons)','BSc Botany','BA English','BSc Chemistry','BA Political Science','BSc Zoology','BA Psychology','BSc Mathematics'];
+  const Y=['1st Year','2nd Year','3rd Year'];
+  const students=[];
+  for(let i=1;i<=428;i++){
+    const id='AVNI-2026-'+String(i).padStart(4,'0');
+    students.push(i===142?{id,name:'Naveena Soni',course:'BSc Life Sciences',year:'2nd Year',token:'nv7k2m9x4qpd',active:true,color:'#2E8B57'}
+      :{id,name:pick(F)+' '+pick(L),course:pick(C),year:pick(Y),token:Array.from({length:12},()=> 'abcdefghjkmnpqrstuvwxyz23456789'[Math.floor(r()*31)]).join(''),active:r()>0.03,color:pick(INK)});
+  }
+  const acts=DEFAULT_ACTS.map(a=>({...a,active:true}));
+  const events=[];
+  const days=Array.from({length:36},()=>2+Math.floor(r()*175)).sort((a,b)=>b-a);
+  days.forEach((d,i)=>{const a=pick(acts);events.push({id:'E'+(i+1),act:a.id,title:a.name,ts:NOW-d*DAY,credits:a.credits})});
+  const ledger=[];let seq=1;
+  const nav=[[0,'A1'],[3,'A7'],[6,'A8'],[10,'A5'],[17,'A1'],[24,'A6'],[31,'A5'],[40,'A8'],[52,'A1'],[66,'A5'],[80,'A8'],[95,'A1']];
+  nav.forEach(([d,a])=>{const ac=acts.find(x=>x.id===a);ledger.push({id:'L'+(seq++),sid:'AVNI-2026-0142',delta:ac.credits,act:a,actName:ac.name,reason:'Participated in AVNI '+ac.name,admin:ADMINS[0],ts:NOW-d*DAY-3600000*(2+d%5),ev:null})});
+  /* Naveena: 25,25,25 upcycling? adjust to 245 total */
+  students.forEach(s=>{
+    if(s.id==='AVNI-2026-0142')return;
+    const n=Math.floor(Math.pow(r(),2.2)*9);const used=new Set();
+    for(let k=0;k<n;k++){const e=pick(events);if(used.has(e.id))continue;used.add(e.id);
+      const a=acts.find(x=>x.id===e.act);
+      ledger.push({id:'L'+(seq++),sid:s.id,delta:a.credits,act:a.id,actName:a.name,reason:'Participated in AVNI '+a.name,admin:pick(ADMINS),ts:Math.min(NOW-1000,e.ts+DAY*(1+Math.floor(r()*2))),ev:e.id})}
+  });
+  const awards=[];
+  [['green'],['clean'],['water']].forEach(([b])=>awards.push({sid:'AVNI-2026-0142',bid:b,by:ADMINS[0],ts:NOW-30*DAY}));
+  students.forEach(s=>{if(s.id==='AVNI-2026-0142')return;const rows=ledger.filter(l=>l.sid===s.id);
+    if(rows.some(l=>l.act==='A1')&&r()>.5)awards.push({sid:s.id,bid:'green',by:pick(ADMINS),ts:NOW-20*DAY});
+    if(rows.some(l=>l.act==='A3')&&r()>.5)awards.push({sid:s.id,bid:'recycler',by:pick(ADMINS),ts:NOW-20*DAY})});
+  const subs=[];
+  [[1,'AVNI-2026-0031','A8'],[2,'AVNI-2026-0207','A1'],[5,'AVNI-2026-0088','A4'],[6,'AVNI-2026-0999','A8'],[8,'AVNI-2026-0311','A3'],[9,'AVNI-2026-0142','A1']].forEach(([h,sid,a],i)=>{
+    const st=students.find(s=>s.id===sid);const ac=acts.find(x=>x.id===a);
+    subs.push({id:'S'+(i+1),ts:NOW-h*3600000,name:st?st.name:'Unknown participant',sid,act:a,event:ac.name,note:'Photo link: drive.google.com/…/'+(100+i),status:'pending'})});
+  return{students,activities:acts,events,ledger,awards,submissions:subs,seq,
+    levels:[{name:'Seedling',e:'🌱',min:0},{name:'Sprout',e:'🌿',min:50},{name:'Green Guardian',e:'🍃',min:100},{name:'Eco Champion',e:'🌳',min:200},{name:'Planet Protector',e:'🌍',min:300}],
+    pub:{course:true,year:true,id:false,credits:true,level:true,mood:true,badges:true,history:false}};
+}
+let S,_tot=null,session={role:null,sid:null,admin:null};
+try{const x=localStorage.getItem(KEY);if(x)S=JSON.parse(x)}catch(e){}
+if(!S){S=seed();}
+try{const x=sessionStorage.getItem('avni_sess');if(x)session=JSON.parse(x)}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function saveSess(){try{sessionStorage.setItem('avni_sess',JSON.stringify(session))}catch(e){}}
+save();
+
+/* ============ domain logic ============ */
+function totals(){if(!_tot){_tot=new Map();for(const l of S.ledger)_tot.set(l.sid,(_tot.get(l.sid)||0)+l.delta)}return _tot}
+const credits=id=>totals().get(id)||0;
+const stu=id=>S.students.find(s=>s.id===id);
+const stuByToken=t=>S.students.find(s=>s.token===t);
+const entries=id=>S.ledger.filter(l=>l.sid===id).sort((a,b)=>b.ts-a.ts);
+function lvl(c){const L=S.levels;let i=0;L.forEach((l,k)=>{if(c>=l.min)i=k});const next=L[i+1]||null;return{i,cur:L[i],next,toNext:next?next.min-c:0,pct:next?Math.min(100,Math.round(c/next.min*100)):100}}
+function moodOf(c){const i=lvl(c).i;return MOODS[Math.min(i,MOODS.length-1)]}
+function badgesOf(id){const c=credits(id);const aw=S.awards.filter(a=>a.sid===id).map(a=>a.bid);const has=S.ledger.some(l=>l.sid===id&&l.delta>0);
+  return BADGES.map(b=>({...b,earned:aw.includes(b.id)||(b.auto==='first'&&has)||(typeof b.auto==='number'&&c>=b.auto)}))}
+const doneCount=id=>S.ledger.filter(l=>l.sid===id&&l.delta>0).length;
+const first=n=>String(n).split(' ')[0];
+const initials=n=>n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const isAdmin=()=>session.role==='admin'&&!!session.admin;   // in production: verified server-side on every request
+function addLedger({sid,delta,act,reason,ev=null}){
+  if(!isAdmin())throw new Error('Only AVNI admins can change credits');
+  const a=S.activities.find(x=>x.id===act);
+  S.ledger.push({id:'L'+(S.seq++),sid,delta,act:act||null,actName:a?a.name:'Correction',reason,admin:session.admin,ts:Date.now(),ev});
+  _tot=null;save()}
+function toast(m){const t=$('#toast');t.innerHTML='<div class="toast" role="status">'+esc(m)+'</div>';clearTimeout(toast.t);toast.t=setTimeout(()=>t.innerHTML='',3200)}
+function closeModal(){$('#modal').innerHTML=''}
+function openModal(h){$('#modal').innerHTML='<div class="overlay" data-act="close-bg"><div class="modal" role="dialog" aria-modal="true">'+h+'</div></div>';const f=$('#modal input,#modal select,#modal textarea');if(f)f.focus()}
+const pubUrl=s=>location.href.split('#')[0]+'#/p/'+s.token;
+
+/* ============ shared components ============ */
+function avatar(s,px=48){return `<div class="avatar" style="width:${px}px;height:${px}px;background:${esc(s.color||'#2E8B57')};font-size:${Math.round(px*.4)}px" aria-hidden="true">${esc(initials(s.name))}</div>`}
+function stamp(l,size=84){const a=S.activities.find(x=>x.id===l.act);const neg=l.delta<0;
+  const ink=neg?'var(--danger)':INK[(a?S.activities.indexOf(a):0)%INK.length];const rot=(hash(l.id)%13)-6;
+  return `<div class="stamp" style="--ink2:${ink};--rot:${rot}deg;width:${size}px;height:${size}px"><span class="si">${neg?'↺':(a?a.icon:'🌱')}</span><b>${l.delta>0?'+':''}${l.delta}</b></div>`}
+function entryRow(l,showAdmin){return `<div class="entry">${stamp(l)}<div class="grow"><h3>${esc(l.actName)}</h3><div class="sm muted">${esc(l.reason)}</div><div class="xs muted">${fmtD(l.ts)}${showAdmin?' · added by '+esc(l.admin):''}</div></div><div class="amt ${l.delta<0?'neg':''}">${l.delta>0?'+':''}${l.delta}</div></div>`}
+function badgeGrid(id){return '<div class="badges">'+badgesOf(id).map(b=>`<div class="badge ${b.earned?'on':'off'}"><span class="ic">${b.earned?b.ic:'🔒'}</span><h3 style="margin-top:6px">${esc(b.name)}</h3><div class="xs muted" style="margin-top:2px">${esc(b.desc)}</div></div>`).join('')+'</div>'}
+function qrBox(s,size=176){return `<div class="qrbox" data-qr="${esc(pubUrl(s))}" data-size="${size}" role="img" aria-label="QR code for ${esc(s.name)}'s AVNI Eco Passport"></div>`}
+function drawQRs(){document.querySelectorAll('[data-qr]').forEach(el=>{if(el.dataset.done)return;el.dataset.done=1;const sz=+el.dataset.size;
+  try{new QRCode(el,{text:el.dataset.qr,width:sz,height:sz,colorDark:'#10332A',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M})}catch(e){el.style.lineHeight='1.4';el.innerHTML='<div class="sm" style="width:'+sz+'px;color:#10332A">QR could not load. Link:<br>'+esc(el.dataset.qr)+'</div>'}})}
+function passportCover(s,opts={}){const c=credits(s.id),L=lvl(c);const mrz=('AVNI<<'+s.name.toUpperCase().replace(/ /g,'<')+'<<<<<<<<<<<<<<<<<<<<').slice(0,44);const mrz2=(s.id.replace(/-/g,'')+'<<'+String(c).padStart(4,'0')+'<<ECO<<<<<<<<<<<<<<<<<<<<').slice(0,44);
+  return `<div class="cover"><div class="row" style="position:relative;z-index:1;gap:16px;align-items:flex-start">${avatar(s,opts.compact?52:68)}<div class="grow" style="min-width:180px"><div class="sm muted">AVNI Eco Passport</div><h2 style="font-size:26px;color:var(--cover-ink)">${esc(s.name)}</h2>
+   <div class="sm muted">${opts.hide&&!opts.hide.course?'':esc(s.course)}${opts.hide&&!opts.hide.year?'':' · '+esc(s.year)}</div>${opts.hide&&!opts.hide.id?'':`<div class="sm" style="margin-top:4px">${esc(s.id)}</div>`}</div>
+   ${opts.qr?`<div>${qrBox(s,opts.qr)}</div>`:''}</div>
+   ${opts.noScore?'':`<div style="position:relative;z-index:1;margin-top:18px"><div class="score">${c}</div><div class="row" style="margin-top:6px"><span class="sm muted">Eco Credits</span><span class="chip gold" style="color:var(--ink)">${L.cur.e} ${esc(L.cur.name)}</span></div></div>`}
+   <div class="mrz" aria-hidden="true">${esc(mrz)}<br>${esc(mrz2)}</div></div>`}
+
+/* ============ charts ============ */
+function monthBuckets(n=6){const d=new Date(),o=[];for(let i=n-1;i>=0;i--){const s=new Date(d.getFullYear(),d.getMonth()-i,1),e=new Date(d.getFullYear(),d.getMonth()-i+1,1);o.push({l:s.toLocaleDateString('en-GB',{month:'short'}),s:+s,e:+e})}return o}
+function lineChart(v,l,col,label){const W=360,H=160,p=28,mx=Math.max(...v,1);const x=i=>p+i*(W-2*p)/(v.length-1),y=a=>H-26-(a/mx)*(H-56);
+  const pts=v.map((a,i)=>[x(i),y(a)]);const path=pts.map((q,i)=>(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}: ${l.map((m,i)=>m+' '+v[i]).join(', ')}"><path d="${path}L${x(v.length-1)} ${H-26}L${x(0)} ${H-26}Z" fill="${col}" opacity=".15"/><path d="${path}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${pts.map((q,i)=>`<circle cx="${q[0]}" cy="${q[1]}" r="3.5" fill="${col}"/><text class="cv" x="${q[0]}" y="${q[1]-9}">${num(v[i])}</text><text class="cl" x="${q[0]}" y="${H-8}">${l[i]}</text>`).join('')}</svg>`}
+function colChart(v,l,col,label){const W=360,H=170,p=20,mx=Math.max(...v,1),bw=(W-2*p)/v.length;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}: ${l.map((m,i)=>m+' '+v[i]).join(', ')}">${v.map((a,i)=>{const h=(a/mx)*(H-62),x=p+i*bw+bw*.15;return `<rect x="${x}" y="${H-34-h}" width="${bw*.7}" height="${h}" rx="6" fill="${Array.isArray(col)?col[i%col.length]:col}"/><text class="cv" x="${x+bw*.35}" y="${H-38-h}">${num(a)}</text><text class="cl" x="${x+bw*.35}" y="${H-18}">${l[i]}</text>`}).join('')}</svg>`}
+function hBars(items){const mx=Math.max(...items.map(i=>i[1]),1);return items.map(([n,v],k)=>`<div class="hb"><span>${esc(n)}</span><div class="bar"><i style="width:${v/mx*100}%;background:${INK[k%INK.length]}"></i></div><b>${v}</b></div>`).join('')}
+
+/* ============ views: landing / public ============ */
+function vLanding(){
+  const nav=stu('AVNI-2026-0142');
+  return `<div class="hero"><div><div class="logo"><span>🌱</span>AVNI · The Eco Club</div>
+    <h1 style="margin-top:20px">Your sustainability journey, stamped and verified.</h1>
+    <p class="muted" style="margin-top:14px;max-width:46ch">Every student gets an Eco Passport. AVNI admins verify participation and add Eco Credits, so every stamp is real and nobody can edit their own score.</p>
+    <div class="card mt2"><h3>Open a student passport</h3><label for="lg-s">Choose a student (demo)</label>
+      <select id="lg-s">${[nav,...S.students.filter(s=>s.id!==nav.id&&s.active).slice(0,40)].map(s=>`<option value="${s.id}">${esc(s.name)} · ${credits(s.id)} credits</option>`).join('')}</select>
+      <div class="row mt"><button class="btn primary" data-act="login-student">Open my passport</button><a class="btn" href="#/p/${nav.token}">Preview a scanned QR page</a></div></div>
+    <div class="card mt"><h3>AVNI admin sign in</h3><div class="grid2" style="gap:12px"><div><label for="lg-a">Admin</label><select id="lg-a">${ADMINS.map(a=>`<option>${esc(a)}</option>`).join('')}</select></div><div><label for="lg-p">PIN</label><input type="password" id="lg-p" autocomplete="off" placeholder="Demo PIN: ${DEMO_PIN}"></div></div>
+      <div class="err" id="lg-e" role="alert"></div><button class="btn primary mt" data-act="login-admin">Sign in to dashboard</button>
+      <p class="xs muted mt">Prototype note: the PIN gate stands in for real admin login. In production, role checks run on the server, and students have no credit-writing endpoint at all.</p></div>
+    </div>
+    <div>${passportCover(nav,{qr:132})}<p class="xs muted mt">Data in this prototype is sample data saved in this browser only.</p></div></div>`}
+
+function vPublic(token){
+  const s=stuByToken(token);const P=S.pub;
+  if(!s)return `<div class="wrap"><div class="card"><h2>Passport not found</h2><p class="muted mt">This QR link doesn't match any AVNI Eco Passport. Ask the student to show their latest code.</p><a class="btn mt" href="#/">Go to AVNI home</a></div></div>`;
+  if(!s.active)return `<div class="wrap"><div class="card"><h2>This passport is inactive</h2><p class="muted mt">AVNI has deactivated this Eco Passport.</p></div></div>`;
+  const c=credits(s.id),L=lvl(c),m=moodOf(c);
+  return `<div class="wrap"><div class="logo" style="margin-bottom:16px"><span>🌱</span>AVNI Eco Passport</div>
+   ${passportCover(s,{noScore:!P.credits,hide:{course:P.course,year:P.year,id:P.id}})}
+   ${P.level?`<div class="card mt row between"><div><div class="sm muted">Eco level</div><h2>${L.cur.e} ${esc(L.cur.name)}</h2></div>${P.credits&&L.next?`<div class="right sm muted">${L.toNext} credits to<br>${L.next.e} ${esc(L.next.name)}</div>`:''}</div>`:''}
+   ${P.mood?`<div class="card mt mood"><div class="face">${m.e}</div><div><div class="sm muted">Eco mood</div><h3>${esc(m.t)}</h3></div></div>`:''}
+   ${P.badges?`<h2 class="sec">Badges</h2>${badgeGrid(s.id)}`:''}
+   ${P.history?`<h2 class="sec">Eco journey</h2><div class="card">${entries(s.id).slice(0,10).map(l=>entryRow(l,false)).join('')}</div>`:''}
+   <p class="xs muted mt2">Verified by AVNI — The Eco Club. Only details AVNI has marked public are shown here.</p></div>`}
+
+/* ============ views: student ============ */
+function studentShell(tab,body){const s=stu(session.sid);
+  const T=[['home','Home'],['journey','My journey'],['badges','Badges'],['passport','QR passport']];
+  return `<header class="top"><div class="in"><a class="logo" href="#/s/home"><span>🌱</span>AVNI</a><nav class="tabs" aria-label="Passport sections">${T.map(([k,n])=>`<a href="#/s/${k}" class="${tab===k?'on':''}" ${tab===k?'aria-current="page"':''}>${n}</a>`).join('')}</nav><button class="btn sm" data-act="logout">Sign out</button></div></header><main class="wrap">${body}</main>`}
+function vStudent(tab){
+  const s=stu(session.sid);if(!s)return vLanding();
+  const c=credits(s.id),L=lvl(c),m=moodOf(c),es=entries(s.id),bs=badgesOf(s.id).filter(b=>b.earned).length;
+  let b='';
+  if(tab==='home'){
+    b=`<h1>Hey, ${esc(first(s.name))} 🌱</h1>
+    <div class="cover mt2"><div style="position:relative;z-index:1"><div class="sm muted">Your eco score</div><div class="score">${c}</div>
+     <div class="row" style="margin:8px 0 14px"><span class="muted sm">Eco Credits</span><span class="chip gold" style="color:var(--ink)">${L.cur.e} ${esc(L.cur.name)}</span></div>
+     ${L.next?`<div class="bar" role="progressbar" aria-valuenow="${c}" aria-valuemin="0" aria-valuemax="${L.next.min}"><i style="width:${L.pct}%"></i></div><div class="row between sm" style="margin-top:8px"><span>${c} / ${L.next.min}</span><span class="muted">${L.toNext} credits until ${esc(L.next.name)} ${L.next.e}</span></div>`:`<div class="sm">Top level reached. Thank you for protecting the planet.</div>`}</div></div>
+    <h2 class="sec">Your eco mood</h2><div class="card mood"><div class="face">${m.e}</div><div><h3>${esc(m.t)}</h3><p class="sm muted">Your mood updates on its own as AVNI adds credits.</p></div></div>
+    <h2 class="sec">Your impact</h2><div class="grid3"><div class="card stat"><span class="sm muted">Activities completed</span><b>${doneCount(s.id)}</b></div><div class="card stat"><span class="sm muted">Badges</span><b>${bs}</b></div><div class="card stat"><span class="sm muted">Eco Credits</span><b>${c}</b></div></div>
+    <h2 class="sec">Recent activities</h2><div class="card">${es.slice(0,3).map(l=>entryRow(l,false)).join('')||'<p class="muted">No verified activities yet. Join an AVNI event and AVNI will add your credits after verifying.</p>'}<a class="btn mt" href="#/s/journey">See full journey</a></div>
+    <h2 class="sec">Next milestone</h2><div class="card row"><div style="font-size:40px">${L.next?L.next.e:'🏆'}</div><div><h3>${L.next?L.toNext+' credits to '+esc(L.next.name)+' '+L.next.e:'You are a '+esc(L.cur.name)+'!'}</h3><p class="sm muted">${L.next?'Credits are added by AVNI after every verified event.':'Keep showing up for AVNI drives.'}</p></div></div>`;
+  }
+  if(tab==='journey'){
+    b=`<h1>Your eco journey</h1><p class="muted mt">Every credit below was verified and added by an AVNI admin. You can see exactly why you received it, but you can't edit it.</p>
+    <div class="card mt">${es.map(l=>entryRow(l,true)).join('')||'<p class="muted">Nothing here yet.</p>'}<div class="row between mt"><b>Total</b><b style="font-family:var(--display);font-size:24px">${c} Eco Credits</b></div></div>`;
+  }
+  if(tab==='badges'){b=`<h1>Badges</h1><p class="muted mt">Awarded by AVNI. Locked badges show what to aim for.</p><div class="mt">${badgeGrid(s.id)}</div>`}
+  if(tab==='passport'){
+    b=`<h1>Your QR passport</h1><div class="mt">${passportCover(s,{qr:150,compact:true})}</div>
+    <div class="card mt"><p><b>Scan to view my AVNI Eco Passport</b></p><p class="sm muted mt">The code holds a random link token only. It never contains your student number or any private data.</p>
+    <div class="row mt"><a class="btn" href="#/p/${s.token}">See what a scanner sees</a><button class="btn" data-act="copy" data-v="${esc(pubUrl(s))}">Copy link</button></div></div>`;
+  }
+  return studentShell(tab,b);
+}
+
+/* ============ views: admin ============ */
+function adminShell(tab,body){
+  const pend=S.submissions.filter(x=>x.status==='pending').length;
+  const N=[['overview','Overview'],['students','Students'],['assign','Record an event'],['inbox','Form submissions'],['activities','Activities'],['settings','Levels & privacy']];
+  return `<header class="top"><div class="in"><a class="logo" href="#/admin/overview"><span>🌱</span>AVNI admin</a><div class="row"><span class="sm muted">${esc(session.admin)}</span><button class="btn sm" data-act="logout">Sign out</button></div></div></header>
+  <div class="adm"><nav class="side" aria-label="Admin">${N.map(([k,n])=>`<a href="#/admin/${k}" class="${tab===k?'on':''}">${n}${k==='inbox'&&pend?`<span class="pill">${pend}</span>`:''}</a>`).join('')}</nav><main>${body}</main></div>`}
+
+function vAdmin(tab,arg){
+  if(!isAdmin())return vLanding();
+  let b='';
+  if(tab==='overview'){
+    const T=totals();let tot=0;T.forEach(v=>tot+=v);const mb=monthBuckets(6);const now=Date.now();
+    const monthNow=mb[5];const addedMonth=S.ledger.filter(l=>l.delta>0&&l.ts>=monthNow.s&&l.ts<monthNow.e).reduce((a,l)=>a+l.delta,0);
+    const active60=new Set(S.ledger.filter(l=>l.ts>now-60*DAY).map(l=>l.sid)).size;
+    const part=mb.map(m=>S.ledger.filter(l=>l.delta>0&&l.ts>=m.s&&l.ts<m.e).length);
+    const cred=mb.map(m=>S.ledger.filter(l=>l.delta>0&&l.ts>=m.s&&l.ts<m.e).reduce((a,l)=>a+l.delta,0));
+    const act=mb.map(m=>new Set(S.ledger.filter(l=>l.ts>=m.s&&l.ts<m.e).map(l=>l.sid)).size);
+    const pop={};S.ledger.filter(l=>l.delta>0).forEach(l=>pop[l.actName]=(pop[l.actName]||0)+1);
+    const popL=Object.entries(pop).sort((a,b)=>b[1]-a[1]).slice(0,6);
+    const dist=S.levels.map(()=>0);S.students.filter(s=>s.active).forEach(s=>dist[lvl(credits(s.id)).i]++);
+    const M=(l,v)=>`<div class="card"><span class="sm muted">${l}</span><b>${v}</b></div>`;
+    b=`<h1>AVNI Eco Dashboard</h1><div class="metrics mt">${M('Total students',num(S.students.length))}${M('Total Eco Credits',num(tot))}${M('Activities conducted',S.events.length)}${M('Credits added this month',num(addedMonth))}${M('Active Eco Passport users',num(active60))}</div>
+    <p class="xs muted mt">Active users = students with a credit change in the last 60 days. Figures are live from the sample data.</p>
+    <div class="grid2 mt"><div class="card"><h3>Participation over time</h3><p class="xs muted">Verified participations per month</p>${colChart(part,mb.map(m=>m.l),'#2E8B57','Participation per month')}</div>
+    <div class="card"><h3>Credits awarded over time</h3><p class="xs muted">Credits added per month</p>${lineChart(cred,mb.map(m=>m.l),'#C2612B','Credits awarded per month')}</div>
+    <div class="card"><h3>Most popular activities</h3><p class="xs muted" style="margin-bottom:8px">Verified participations, all time</p>${hBars(popL)}</div>
+    <div class="card"><h3>Active students</h3><p class="xs muted">Students with any credit change, by month</p>${lineChart(act,mb.map(m=>m.l),'#3B82C4','Active students per month')}</div>
+    <div class="card" style="grid-column:1/-1"><h3>Eco level distribution</h3><p class="xs muted">Active students per level</p>${colChart(dist,S.levels.map(l=>l.e+' '+l.name),INK,'Students per level')}</div></div>`;
+  }
+  if(tab==='students'&&!arg){
+    b=`<div class="row between"><h1>Students</h1><button class="btn primary" data-act="student-new">+ Add student</button></div>
+    <label for="q" class="sr">Search students</label><input type="text" id="q" placeholder="Search by name, ID or course, e.g. Naveena Soni" autocomplete="off" style="margin-top:12px"><div class="card mt" id="list">${studentList('')}</div>`;
+  }
+  if(tab==='students'&&arg){
+    const s=stu(arg);if(!s)return adminShell(tab,'<div class="card">Student not found. <a href="#/admin/students">Back</a></div>');
+    const c=credits(s.id),L=lvl(c),es=entries(s.id);
+    b=`<a href="#/admin/students" class="sm">← All students</a>
+    <div class="card mt"><div class="row" style="gap:16px">${avatar(s,60)}<div class="grow"><h1 style="font-size:28px">${esc(s.name)}</h1><div class="sm muted">${esc(s.course)} · ${esc(s.year)} · ${esc(s.id)}</div>${s.active?'':'<span class="chip red" style="margin-top:6px">Deactivated</span>'}</div>
+     <div class="row"><button class="btn sm" data-act="student-edit" data-id="${s.id}">Edit</button><button class="btn sm ${s.active?'warn':''}" data-act="toggle-active" data-id="${s.id}">${s.active?'Deactivate':'Reactivate'}</button></div></div></div>
+    <div class="card mt"><div class="row between"><div><div class="sm muted">Current</div><div style="font-family:var(--display);font-size:44px;font-weight:800;line-height:1.1">${c} Eco Credits</div><span class="chip gold">${L.cur.e} ${esc(L.cur.name)}</span></div>
+     <div class="row"><button class="btn primary big" data-act="credit-open" data-id="${s.id}" ${s.active?'':'disabled'}>+ Add credits</button><button class="btn" data-act="deduct-open" data-id="${s.id}">Deduct</button></div></div></div>
+    <h2 class="sec">Badges</h2>${badgeGrid(s.id)}<button class="btn mt" data-act="award-open" data-id="${s.id}">Award or remove badges</button>
+    <h2 class="sec">Credit history and audit trail</h2><div class="card tw"><table><thead><tr><th>Date and time</th><th>Change</th><th>Activity</th><th>Reason</th><th>Added by</th></tr></thead><tbody>${es.map(l=>`<tr><td>${fmtDT(l.ts)}</td><td><b style="color:var(--${l.delta<0?'danger':'brand'})">${l.delta>0?'+':''}${l.delta}</b></td><td>${esc(l.actName)}</td><td>${esc(l.reason)}</td><td>${esc(l.admin)}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">No credit changes yet.</td></tr>'}</tbody></table></div>
+    <p class="xs muted mt">History is append-only. To fix a mistake, deduct with a reason so both entries stay in the trail.</p>
+    <h2 class="sec">QR passport</h2><div class="card row" style="gap:20px">${qrBox(s,140)}<div><p class="sm muted">Public link token: <code>${esc(s.token)}</code></p><a class="btn sm mt" href="#/p/${s.token}" target="_blank" rel="noopener">Open public page</a></div></div>`;
+  }
+  if(tab==='activities'){
+    b=`<div class="row between"><h1>Activities</h1><button class="btn primary" data-act="act-edit" data-id="">+ New activity</button></div><p class="muted mt">Only AVNI decides what an activity is worth. Changing a value affects future credits only, not past entries.</p>
+    <div class="card mt tw"><table><thead><tr><th></th><th>Activity</th><th>Credits</th><th>Status</th><th></th></tr></thead><tbody>${S.activities.map(a=>`<tr><td style="font-size:24px">${a.icon}</td><td><b>${esc(a.name)}</b><div class="sm muted">${esc(a.desc)}</div></td><td><b>+${a.credits}</b></td><td>${a.active?'<span class="chip">Active</span>':'<span class="chip red">Hidden</span>'}</td><td class="right"><button class="btn sm" data-act="act-edit" data-id="${a.id}">Edit</button></td></tr>`).join('')}</tbody></table></div>`;
+  }
+  if(tab==='assign'){
+    const D=vAdmin.draft;const a=S.activities.find(x=>x.id===D.act)||S.activities.filter(x=>x.active)[0];
+    b=`<h1>Record an event</h1><p class="muted mt">Assign an activity to everyone who took part. Credits post to each passport straight away, each with your name and the reason.</p>
+    <div class="card mt"><label for="ev-a">Activity</label><select id="ev-a" data-draft="act">${S.activities.filter(x=>x.active).map(x=>`<option value="${x.id}" ${x.id===a.id?'selected':''}>${x.icon} ${esc(x.name)} (+${x.credits})</option>`).join('')}</select>
+     <div class="grid2" style="gap:12px"><div><label for="ev-d">Event date</label><input type="date" id="ev-d" data-draft="date" value="${esc(D.date)}"></div><div><label for="ev-t">Event title (optional)</label><input type="text" id="ev-t" data-draft="title" value="${esc(D.title)}" placeholder="${esc(a.name)}"></div></div>
+     <label for="pq">Add participants</label><input type="text" id="pq" placeholder="Search a name or ID" autocomplete="off"><div id="pres"></div>
+     <label for="pp">Or paste student IDs (comma or line separated)</label><textarea id="pp" placeholder="AVNI-2026-0031, AVNI-2026-0088"></textarea><button class="btn sm mt" data-act="ev-paste">Add pasted IDs</button>
+     <h3 class="mt2">Participants (${D.pids.length})</h3><div class="row" style="gap:8px;margin-top:8px">${D.pids.map(id=>{const s=stu(id);return `<span class="chip">${esc(s?s.name:id)} <button class="btn sm" style="min-height:24px;padding:0 6px;border:0" data-act="ev-rm" data-id="${id}" aria-label="Remove ${esc(s?s.name:id)}">✕</button></span>`}).join('')||'<span class="muted sm">No one added yet.</span>'}</div>
+     <div class="err" id="ev-e" role="alert"></div><button class="btn primary big mt" data-act="ev-confirm">Confirm and add ${a.credits} credits each</button></div>`;
+  }
+  if(tab==='inbox'){
+    const P=S.submissions.filter(x=>x.status==='pending'),H=S.submissions.filter(x=>x.status!=='pending').slice(-8).reverse();
+    b=`<div class="row between"><h1>Form submissions</h1><button class="btn" data-act="sub-sim">Simulate a Google Form response</button></div>
+    <p class="muted mt">Rows arrive from your Google Sheet. A submission never gives credits. It waits here until an admin verifies it.</p>
+    <div class="card mt tw"><table><thead><tr><th>Received</th><th>Student</th><th>Event</th><th>Proof</th><th></th></tr></thead><tbody>${P.map(x=>{const s=stu(x.sid);return `<tr><td>${fmtDT(x.ts)}</td><td>${s?`<a href="#/admin/students/${s.id}">${esc(s.name)}</a>`:`<b>${esc(x.name)}</b> <span class="chip red">No match</span>`}<div class="xs muted">${esc(x.sid)}</div></td><td>${esc(x.event)}</td><td class="sm muted">${esc(x.note)}</td><td class="right" style="white-space:nowrap"><button class="btn sm primary" data-act="sub-verify" data-id="${x.id}" ${s?'':'disabled'}>Verify</button> <button class="btn sm" data-act="sub-reject" data-id="${x.id}">Reject</button></td></tr>`}).join('')||'<tr><td colspan="5" class="muted">Inbox is clear. New form responses will appear here.</td></tr>'}</tbody></table></div>
+    ${H.length?`<h3 class="mt2">Recently handled</h3><div class="card">${H.map(x=>`<div class="row between sm" style="padding:6px 0"><span>${esc(x.name)} · ${esc(x.event)}</span><span class="chip ${x.status==='verified'?'':'red'}">${x.status==='verified'?'Verified':'Rejected'}</span></div>`).join('')}</div>`:''}
+    <h2 class="sec">How Google Forms connects to AVNI</h2><div class="card">
+     <div class="flow"><span class="chip">AVNI event</span><span class="a">→</span><span class="chip">Event QR</span><span class="a">→</span><span class="chip">Google Form</span><span class="a">→</span><span class="chip">Google Sheet</span><span class="a">→</span><span class="chip">Backend inbox</span><span class="a">→</span><span class="chip gold">Admin verifies</span><span class="a">→</span><span class="chip">Credits + passport update</span></div>
+     <ol class="sm" style="padding-left:20px;line-height:1.7"><li><b>Form.</b> Ask for AVNI Student ID, event (dropdown fed by your activity list) and a proof link. Turn on "collect email" for a second identity check.</li>
+     <li><b>Sheet.</b> Responses land in a linked Google Sheet automatically. That sheet is the raw record, never the source of credits.</li>
+     <li><b>Sync.</b> An Apps Script "on form submit" trigger posts each row to the backend. The backend stores it as <code>pending</code> after checking the shared secret and that the student ID exists. Duplicates are dropped using the response ID.</li>
+     <li><b>Verify.</b> Admins review the inbox here. Verify creates one credit entry linked to that submission. Reject records a reason. Nothing else can create credits.</li>
+     <li><b>Update.</b> The student's passport reads their total from the credit log, so it updates the moment the entry is saved.</li></ol>
+<pre>// Apps Script, bound to the form's response Sheet
+function onFormSubmit(e) {
+  const v = e.namedValues;
+  UrlFetchApp.fetch('https://api.your-avni-backend.example/v1/submissions', {
+    method: 'post', contentType: 'application/json',
+    headers: { 'X-Webhook-Secret': PropertiesService.getScriptProperties().getProperty('SECRET') },
+    payload: JSON.stringify({
+      responseId: e.range.getRow(),
+      studentId: v['AVNI Student ID'][0],
+      event: v['Event'][0],
+      proof: v['Proof link'][0],
+      submittedAt: new Date().toISOString()
+    })
+  });
+}</pre>
+     <p class="sm muted"><b>Backend endpoints.</b> <code>POST /v1/submissions</code> (webhook secret only, creates pending rows), <code>POST /v1/credits</code> and <code>POST /v1/badges</code> (admin session required, writes audit log), <code>GET /v1/passports/:token</code> (public, returns only fields AVNI marked public). No student-facing endpoint can write credits. Use row-level security (for example Supabase or Firebase rules) so the database itself refuses student writes.</p></div>`;
+  }
+  if(tab==='settings'){
+    const P=S.pub;const PL=[['course','Course / department'],['year','Year'],['id','AVNI Student ID'],['credits','Eco Credits total'],['level','Eco level'],['mood','Eco mood'],['badges','Badges'],['history','Credit history']];
+    b=`<h1>Levels and privacy</h1><h2 class="sec">Eco levels</h2><div class="card"><p class="sm muted">Set the minimum credits for each level. The first level always starts at 0.</p>
+     ${S.levels.map((l,i)=>`<div class="row" style="margin-top:10px"><input type="text" style="width:64px;text-align:center" data-lv="e${i}" value="${esc(l.e)}" aria-label="Level ${i+1} emoji"><input type="text" style="flex:1;min-width:140px" data-lv="n${i}" value="${esc(l.name)}" aria-label="Level ${i+1} name"><input type="number" style="width:100px" data-lv="m${i}" min="0" value="${l.min}" ${i===0?'disabled':''} aria-label="Level ${i+1} minimum credits"></div>`).join('')}
+     <div class="err" id="lv-e" role="alert"></div><button class="btn primary mt" data-act="level-save">Save levels</button></div>
+    <h2 class="sec">What the QR page shows publicly</h2><div class="card">${PL.map(([k,n])=>`<div class="tog"><span>${n}</span><input type="checkbox" data-pub="${k}" ${P[k]?'checked':''} style="width:22px;height:22px" aria-label="Show ${n}"></div>`).join('')}<p class="xs muted mt">The student's name and level are the minimum public identity. Contact details are never stored on the passport.</p></div>
+    <h2 class="sec">Prototype data</h2><button class="btn warn" data-act="reset">Reset sample data</button>`;
+  }
+  return adminShell(tab,b);
+}
+vAdmin.draft={act:'A1',date:new Date().toISOString().slice(0,10),title:'',pids:[]};
+function studentList(q,limit=30){q=q.trim().toLowerCase();const m=S.students.filter(s=>!q||(s.name+' '+s.id+' '+s.course).toLowerCase().includes(q));
+  return m.slice(0,limit).map(s=>`<a class="srow" href="#/admin/students/${s.id}">${avatar(s,38)}<div class="grow"><b>${esc(s.name)}</b> ${s.active?'':'<span class="chip red">Deactivated</span>'}<div class="xs muted">${esc(s.id)} · ${esc(s.course)} · ${esc(s.year)}</div></div><div class="right"><b>${credits(s.id)}</b><div class="xs muted">${lvl(credits(s.id)).cur.e} ${esc(lvl(credits(s.id)).cur.name)}</div></div></a>`).join('')+(m.length>limit?`<p class="xs muted mt">Showing ${limit} of ${m.length}. Keep typing to narrow down.</p>`:'')||'<p class="muted">No students match. Try another name or ID.</p>'}
+
+/* ============ modals ============ */
+function creditModal(sid,actId,reason,subId){
+  const s=stu(sid),acts=S.activities.filter(a=>a.active);const a=acts.find(x=>x.id===actId)||acts[0];
+  openModal(`<h2>Add credits</h2><p class="sm muted mt">${esc(s.name)} · currently <b>${credits(sid)}</b> Eco Credits</p>
+   <label for="m-a">Activity</label><select id="m-a">${acts.map(x=>`<option value="${x.id}" ${x.id===a.id?'selected':''}>${x.icon} ${esc(x.name)}</option>`).join('')}</select>
+   <label for="m-c">Credits</label><input type="number" id="m-c" min="1" step="1" value="${a.credits}">
+   <label for="m-r">Reason</label><textarea id="m-r">${esc(reason||'Participated in AVNI '+a.name)}</textarea>
+   <p class="xs muted mt">Recorded as ${esc(session.admin)} on ${fmtDT(Date.now())}.</p><div class="err" id="m-e" role="alert"></div>
+   <div class="row mt"><button class="btn primary big grow" data-act="credit-confirm" data-id="${sid}" data-sub="${subId||''}">Confirm credit</button><button class="btn" data-act="close">Cancel</button></div>`)}
+function studentModal(id){const s=id?stu(id):{name:'',course:'',year:'1st Year',color:INK[0]};
+  openModal(`<h2>${id?'Edit student':'Add student'}</h2><label for="m-n">Full name</label><input type="text" id="m-n" value="${esc(s.name)}"><label for="m-co">Course / department</label><input type="text" id="m-co" value="${esc(s.course)}" placeholder="e.g. BSc Life Sciences">
+   <label for="m-y">Year</label><select id="m-y">${['1st Year','2nd Year','3rd Year','4th Year'].map(y=>`<option ${y===s.year?'selected':''}>${y}</option>`).join('')}</select>
+   ${id?'':'<p class="xs muted mt">A unique AVNI ID and a random QR token are created automatically.</p>'}<div class="err" id="m-e" role="alert"></div>
+   <div class="row mt"><button class="btn primary grow" data-act="student-save" data-id="${id||''}">${id?'Save changes':'Add student'}</button><button class="btn" data-act="close">Cancel</button></div>`)}
+
+/* ============ router ============ */
+function route(){const p=location.hash.replace(/^#\/?/,'').split('/').filter(Boolean);return p}
+function render(){
+  const p=route();let h='';
+  if(p[0]==='p')h=vPublic(p[1]);
+  else if(p[0]==='s'){if(session.role==='student')h=vStudent(p[1]||'home');else{location.hash='#/';return}}
+  else if(p[0]==='admin'){if(isAdmin())h=vAdmin(p[1]||'overview',p[2]);else{location.hash='#/';return}}
+  else h=vLanding();
+  $('#app').innerHTML=h;drawQRs();
+  if(p[0]==='admin'&&p[1]==='assign')wireParticipantSearch();
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',render);
+function wireParticipantSearch(){const q=$('#pq');if(!q)return;q.addEventListener('input',()=>{const v=q.value.trim().toLowerCase();const box=$('#pres');
+  if(!v){box.innerHTML='';return}
+  const m=S.students.filter(s=>s.active&&!vAdmin.draft.pids.includes(s.id)&&(s.name+' '+s.id).toLowerCase().includes(v)).slice(0,6);
+  box.innerHTML=m.map(s=>`<button class="btn sm" style="margin:6px 6px 0 0" data-act="ev-add" data-id="${s.id}">+ ${esc(s.name)} <span class="muted">${esc(s.id)}</span></button>`).join('')||'<p class="sm muted mt">No match.</p>'})}
+
+/* ============ events ============ */
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.id==='q'){$('#list').innerHTML=studentList(t.value)}
+  if(t.dataset.draft){vAdmin.draft[t.dataset.draft]=t.value}
+  if(t.id==='m-a'){const a=S.activities.find(x=>x.id===t.value);if(a){$('#m-c').value=a.credits;$('#m-r').value='Participated in AVNI '+a.name}}
+});
+document.addEventListener('change',e=>{const t=e.target;
+  if(t.dataset.draft==='act'){vAdmin.draft.act=t.value;render();}
+  if(t.dataset.pub){S.pub[t.dataset.pub]=t.checked;save();toast('Public page updated')}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]');if(!el)return;const act=el.dataset.act,id=el.dataset.id;
+  if(act==='close-bg'){if(e.target===el)closeModal();return}
+  try{
+  switch(act){
+   case 'close':closeModal();break;
+   case 'login-student':session={role:'student',sid:$('#lg-s').value,admin:null};saveSess();location.hash='#/s/home';render();break;
+   case 'login-admin':{if($('#lg-p').value.trim().toUpperCase()!==DEMO_PIN){$('#lg-e').textContent='That PIN is not right. The demo PIN is '+DEMO_PIN+'.';break}
+     session={role:'admin',sid:null,admin:$('#lg-a').value};saveSess();location.hash='#/admin/overview';render();break}
+   case 'logout':session={role:null,sid:null,admin:null};saveSess();location.hash='#/';render();break;
+   case 'copy':navigator.clipboard&&navigator.clipboard.writeText(el.dataset.v).then(()=>toast('Link copied'),()=>toast('Copy not available here'));break;
+   case 'student-new':studentModal('');break;
+   case 'student-edit':studentModal(id);break;
+   case 'student-save':{const n=$('#m-n').value.trim(),c=$('#m-co').value.trim(),y=$('#m-y').value;if(!n||!c){$('#m-e').textContent='Enter the student\u2019s full name and course.';break}
+     if(id){const s=stu(id);Object.assign(s,{name:n,course:c,year:y});save();closeModal();toast('Student updated');render()}
+     else{const nid='AVNI-2026-'+String(S.students.length+1).padStart(4,'0');S.students.push({id:nid,name:n,course:c,year:y,token:newToken(),active:true,color:INK[hash(n)%INK.length]});save();closeModal();toast(n+' added as '+nid);location.hash='#/admin/students/'+nid}break}
+   case 'toggle-active':{const s=stu(id);s.active=!s.active;save();toast(s.active?'Passport reactivated':'Passport deactivated');render();break}
+   case 'credit-open':creditModal(id);break;
+   case 'credit-confirm':{const a=$('#m-a').value,c=parseInt($('#m-c').value,10),r=$('#m-r').value.trim();
+     if(!(c>0)){$('#m-e').textContent='Enter a whole number of credits above 0.';break}if(!r){$('#m-e').textContent='A reason is required for every credit change.';break}
+     addLedger({sid:id,delta:c,act:a,reason:r});
+     if(el.dataset.sub){const sb=S.submissions.find(x=>x.id===el.dataset.sub);if(sb){sb.status='verified';save()}}
+     closeModal();toast('+'+c+' credits added to '+stu(id).name);render();break}
+   case 'deduct-open':openModal(`<h2>Deduct credits</h2><p class="sm muted mt">Use this to correct a wrong entry. The original entry stays in the audit trail.</p><label for="m-c">Credits to deduct</label><input type="number" id="m-c" min="1" step="1" value="10"><label for="m-r">Reason (required)</label><textarea id="m-r" placeholder="e.g. Added to the wrong student"></textarea><div class="err" id="m-e" role="alert"></div><div class="row mt"><button class="btn warn grow" data-act="deduct-confirm" data-id="${id}">Confirm deduction</button><button class="btn" data-act="close">Cancel</button></div>`);break;
+   case 'deduct-confirm':{const c=parseInt($('#m-c').value,10),r=$('#m-r').value.trim();
+     if(!(c>0)){$('#m-e').textContent='Enter a whole number above 0.';break}if(c>credits(id)){$('#m-e').textContent='That is more than the current balance ('+credits(id)+').';break}if(!r){$('#m-e').textContent='A reason is required for every credit change.';break}
+     addLedger({sid:id,delta:-c,act:null,reason:r});closeModal();toast('−'+c+' credits deducted');render();break}
+   case 'award-open':{const s=stu(id),have=S.awards.filter(a=>a.sid===id).map(a=>a.bid);
+     openModal(`<h2>Badges for ${esc(s.name)}</h2><p class="sm muted mt">Credit-based badges unlock on their own. Award the rest after verifying.</p>${badgesOf(id).map(b=>`<div class="tog"><span style="font-size:26px">${b.ic}</span><div class="grow" style="padding:0 12px"><b>${esc(b.name)}</b><div class="xs muted">${esc(b.desc)}</div></div>${b.auto?`<span class="chip ${b.earned?'gold':''}">${b.earned?'Unlocked':'Automatic'}</span>`:`<button class="btn sm ${have.includes(b.id)?'warn':'primary'}" data-act="award-toggle" data-id="${id}" data-b="${b.id}">${have.includes(b.id)?'Remove':'Award'}</button>`}</div>`).join('')}<button class="btn mt" data-act="close">Done</button>`);break}
+   case 'award-toggle':{const b=el.dataset.b;const i=S.awards.findIndex(a=>a.sid===id&&a.bid===b);if(i>=0)S.awards.splice(i,1);else S.awards.push({sid:id,bid:b,by:session.admin,ts:Date.now()});save();render();el.closest('.modal')&&(document.querySelector('[data-act=award-open][data-id="'+id+'"]').click());break}
+   case 'act-edit':{const a=id?S.activities.find(x=>x.id===id):{icon:'🌿',name:'',desc:'',credits:10,active:true};
+     openModal(`<h2>${id?'Edit activity':'New activity'}</h2><label for="m-i">Icon (emoji)</label><input type="text" id="m-i" value="${esc(a.icon)}" style="width:80px"><label for="m-n">Activity name</label><input type="text" id="m-n" value="${esc(a.name)}"><label for="m-d">Description</label><textarea id="m-d">${esc(a.desc)}</textarea><label for="m-c">Credit value</label><input type="number" id="m-c" min="1" value="${a.credits}"><div class="tog"><span>Available to assign</span><input type="checkbox" id="m-ac" ${a.active?'checked':''} style="width:22px;height:22px"></div><div class="err" id="m-e" role="alert"></div><div class="row mt"><button class="btn primary grow" data-act="act-save" data-id="${id||''}">Save activity</button><button class="btn" data-act="close">Cancel</button></div>`);break}
+   case 'act-save':{const n=$('#m-n').value.trim(),c=parseInt($('#m-c').value,10);if(!n||!(c>0)){$('#m-e').textContent='Add a name and a credit value above 0.';break}
+     const v={icon:$('#m-i').value.trim()||'🌿',name:n,desc:$('#m-d').value.trim(),credits:c,active:$('#m-ac').checked};
+     if(id)Object.assign(S.activities.find(x=>x.id===id),v);else S.activities.push({id:'A'+(S.activities.length+1+Date.now()%1000),...v});
+     save();closeModal();toast('Activity saved');render();break}
+   case 'ev-add':if(!vAdmin.draft.pids.includes(id))vAdmin.draft.pids.push(id);render();break;
+   case 'ev-rm':vAdmin.draft.pids=vAdmin.draft.pids.filter(x=>x!==id);render();break;
+   case 'ev-paste':{const ids=$('#pp').value.split(/[\s,;]+/).map(x=>x.trim().toUpperCase()).filter(Boolean);let bad=[];ids.forEach(x=>{const s=stu(x);if(s&&s.active){if(!vAdmin.draft.pids.includes(x))vAdmin.draft.pids.push(x)}else bad.push(x)});
+     render();if(bad.length)setTimeout(()=>{const e=$('#ev-e');if(e)e.textContent='Not found or inactive: '+bad.join(', ')},0);break}
+   case 'ev-confirm':{const D=vAdmin.draft,a=S.activities.find(x=>x.id===D.act);if(!D.pids.length){$('#ev-e').textContent='Add at least one participant.';break}if(!D.date){$('#ev-e').textContent='Choose the event date.';break}
+     const title=D.title.trim()||a.name,evId='E'+(S.events.length+1+Date.now()%1000);S.events.push({id:evId,act:a.id,title,ts:new Date(D.date).getTime(),credits:a.credits});
+     D.pids.forEach(sid=>addLedger({sid,delta:a.credits,act:a.id,reason:'Participated in '+title+' ('+fmtD(new Date(D.date).getTime())+')',ev:evId}));
+     const n=D.pids.length;vAdmin.draft={act:D.act,date:D.date,title:'',pids:[]};toast('+'+a.credits+' credits added to '+n+' student'+(n>1?'s':''));render();break}
+   case 'sub-verify':{const sb=S.submissions.find(x=>x.id===id);creditModal(sb.sid,sb.act,'Verified form submission: '+sb.event,sb.id);break}
+   case 'sub-reject':{const sb=S.submissions.find(x=>x.id===id);sb.status='rejected';save();toast('Submission rejected. No credits given.');render();break}
+   case 'sub-sim':{const ss=S.students.filter(s=>s.active),s=ss[Math.floor(Math.random()*ss.length)],a=S.activities.filter(x=>x.active)[Math.floor(Math.random()*S.activities.length)]||S.activities[0];
+     S.submissions.push({id:'S'+(S.submissions.length+1+Date.now()%1000),ts:Date.now(),name:s.name,sid:s.id,act:a.id,event:a.name,note:'Photo link: drive.google.com/…/new',status:'pending'});save();toast(s.name+' submitted the form. Credits: still 0 until verified.');render();break}
+   case 'level-save':{const L=S.levels.map((l,i)=>({e:$('[data-lv=e'+i+']').value.trim()||l.e,name:$('[data-lv=n'+i+']').value.trim()||l.name,min:i===0?0:parseInt($('[data-lv=m'+i+']').value,10)}));
+     for(let i=1;i<L.length;i++){if(!(L[i].min>L[i-1].min)){$('#lv-e').textContent='Each level must start above the previous one ('+L[i].name+').';return}}
+     S.levels=L;save();toast('Levels saved');render();break}
+   case 'reset':if(confirm('Reset all sample data in this browser?')){S=seed();_tot=null;save();toast('Sample data reset');render()}break;
+  }}catch(err){toast(err.message)}
+});
+render();
+</script>
+</body>
+</html>
